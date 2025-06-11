@@ -18,10 +18,8 @@ const register = async (payload) => {
 
 const login = async ({ email, password }) => {
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) throw new Error('Email tidak ditemukan');
-
     const match = await comparePassword(password, user.password);
-    if (!match) throw new Error('Password salah');
+    if (!match) throw new Error('Email atau Password salah');
 
     const token = jwt.token.generate(
         {
