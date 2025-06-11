@@ -10,7 +10,7 @@ const hasilRoutes = require('./routes/hasil.route');
 const init = async () => {
     const server = Hapi.server({
         port: process.env.PORT || 5000,
-        host: '0.0.0.0',
+        host: 'localhost',
         routes: {
             cors: {
                 origin: ['*'],
@@ -49,16 +49,6 @@ const init = async () => {
     });
     server.auth.default('jwt');
 
-    server.route({
-        method: 'GET',
-        path: '/',
-        options: { auth: false, cors: true,  },
-        handler: (request, h) => {
-
-            return 'Hello World!';
-        }
-    });
-
     server.route([
         ...authRoutes,
         ...siswaRoutes,
@@ -93,7 +83,6 @@ const init = async () => {
         return h.continue;
     });
 
-    
 
     await server.start();
     console.log('🚀 Server running at:', server.info.uri);
